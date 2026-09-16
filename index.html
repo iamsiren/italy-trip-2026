@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>意大利 12 天旅行手册 · 2026</title>
+<style>
+  :root{
+    --bg:#f6f3ec; --panel:#fffdf8; --ink:#2b2722; --sub:#7a7268;
+    --line:#e7e0d3; --accent:#c0392b; --accent2:#2c6e8f;
+    --tag:#f4ece0; --shadow:0 1px 3px rgba(0,0,0,.06),0 6px 18px rgba(0,0,0,.05);
+    --map-bg:#eef3f0;
+  }
+  [data-theme="dark"]{
+    --bg:#1b1a18; --panel:#26241f; --ink:#f1ece2; --sub:#a39a8c;
+    --line:#3a362f; --accent:#e87a6b; --accent2:#6fb4d6;
+    --tag:#33302a; --shadow:0 1px 3px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+    --map-bg:#222b27;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.6; font-size:15px;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px}
+  header.top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:6px 2px 12px;position:sticky;top:0;background:var(--bg);z-index:20;
+  }
+  header.top h1{font-size:18px;margin:0;letter-spacing:.5px}
+  header.top .meta{font-size:12px;color:var(--sub)}
+  .theme-btn{
+    border:1px solid var(--line);background:var(--panel);color:var(--ink);
+    border-radius:20px;padding:6px 12px;font-size:13px;cursor:pointer;
+  }
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);padding:16px;margin:14px 0}
+  .card h2{margin:0 0 12px;font-size:16px;display:flex;align-items:center;gap:8px}
+  .card h2 .ico{font-size:18px}
+
+  /* NOW card */
+  .now{border-color:var(--accent)}
+  .now .phase{font-size:12px;color:var(--sub);margin-bottom:4px}
+  .now .next{font-size:17px;font-weight:600;margin-bottom:2px}
+  .now .next .pin{color:var(--accent)}
+  .now .when{font-size:12px;color:var(--sub);margin-bottom:10px}
+  .cd{display:flex;gap:8px}
+  .cd .unit{flex:1;text-align:center;background:var(--tag);border-radius:12px;padding:8px 4px}
+  .cd .num{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+  .cd .lbl{font-size:11px;color:var(--sub)}
+  .now .tz{font-size:11px;color:var(--sub);margin-top:8px}
+
+  /* overview map */
+  .ovmap{width:100%;height:auto;display:block;border-radius:12px;background:var(--map-bg)}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:12px;color:var(--sub)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:14px;height:4px;border-radius:2px;display:inline-block}
+
+  /* confirmed info */
+  .grp{margin-bottom:14px}
+  .grp h3{font-size:13px;color:var(--accent2);margin:0 0 6px;text-transform:none;letter-spacing:.3px}
+  .row{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .k{flex:0 0 88px;color:var(--sub);font-size:13px}
+  .row .v{flex:1;font-size:14px}
+  .row .v a{color:var(--accent2);text-decoration:none;border-bottom:1px dotted var(--accent2)}
+  .pill{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;margin-left:6px;vertical-align:middle}
+  .pill.ok{background:#e3f0e6;color:#2f7d46}
+  .pill.free{background:#e8eef7;color:#2c6e8f}
+  .pill.todo{background:#fbeede;color:#b9772a}
+
+  /* day cards */
+  .day{border:1px solid var(--line);border-radius:16px;background:var(--panel);
+    box-shadow:var(--shadow);margin:12px 0;overflow:hidden}
+  .day .head{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer}
+  .day .dayno{flex:0 0 auto;width:46px;height:46px;border-radius:12px;color:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:14px;line-height:1}
+  .day .dayno small{font-size:9px;font-weight:400;opacity:.9}
+  .day .ht{flex:1}
+  .day .ht .t1{font-size:15px;font-weight:600}
+  .day .ht .t2{font-size:12px;color:var(--sub)}
+  .day .chev{transition:transform .25s;color:var(--sub);font-size:13px}
+  .day.open .chev{transform:rotate(180deg)}
+  .day .body{display:none;padding:4px 14px 14px;border-top:1px solid var(--line)}
+  .day.open .body{display:block}
+  .tl{position:relative;margin:10px 0 0 4px;padding-left:78px}
+  .tl:before{content:"";position:absolute;left:64px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .ev{position:relative;padding:7px 0}
+  .ev .tm{position:absolute;left:-78px;width:60px;text-align:right;font-size:13px;font-weight:600;color:var(--accent2);font-variant-numeric:tabular-nums}
+  .ev .tm small{display:block;font-size:9px;color:var(--sub);font-weight:400}
+  .ev:before{content:"";position:absolute;left:-18px;top:13px;width:9px;height:9px;border-radius:50%;background:var(--panel);border:2px solid var(--accent2)}
+  .ev .tx{font-size:14px}
+  .ev .tx a{color:var(--accent2);text-decoration:none;border-bottom:1px dotted var(--accent2)}
+  .ev .note{font-size:12px;color:var(--sub);margin-top:2px}
+  .ev .book{font-size:11px;color:#b9772a;background:#fbeede;border-radius:8px;padding:1px 7px;margin-left:6px}
+  .day .mapbar{display:flex;gap:8px;margin:10px 0 2px}
+  .mbtn{flex:1;text-align:center;border:1px solid var(--line);background:var(--tag);color:var(--ink);
+    border-radius:10px;padding:8px;font-size:13px;cursor:pointer}
+  .daymap{display:none;margin-top:8px}
+  .daymap.show{display:block}
+  .daymap svg{width:100%;height:auto;background:var(--map-bg);border-radius:10px}
+
+  /* todo */
+  ul.todo{list-style:none;margin:0;padding:0}
+  ul.todo li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--line);font-size:14px}
+  ul.todo li:last-child{border-bottom:none}
+  ul.todo li:before{content:"☐";position:absolute;left:0;top:8px;color:var(--sub);font-size:15px}
+
+  /* tips */
+  .tips{font-size:13px;color:var(--ink)}
+  .tips p{margin:6px 0}
+  .tips b{color:var(--accent2)}
+
+  footer{text-align:center;color:var(--sub);font-size:11px;margin-top:18px;line-height:1.7}
+  .sec-anchor{scroll-margin-top:60px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <h1>🇮🇹 意大利 12 天旅行手册</h1>
+      <div class="meta">2026-10-02 ~ 10-13 · 2 人 · 朋友游</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌗 换肤</button>
+  </header>
+
+  <!-- ① 此刻关注 -->
+  <section class="card now sec-anchor" id="now">
+    <div class="phase" id="phase">行程加载中…</div>
+    <div class="next" id="nextEvent">—</div>
+    <div class="when" id="nextWhen"></div>
+    <div class="cd">
+      <div class="unit"><div class="num" id="cdD">--</div><div class="lbl">天</div></div>
+      <div class="unit"><div class="num" id="cdH">--</div><div class="lbl">时</div></div>
+      <div class="unit"><div class="num" id="cdM">--</div><div class="lbl">分</div></div>
+      <div class="unit"><div class="num" id="cdS">--</div><div class="lbl">秒</div></div>
+    </div>
+    <div class="tz">⏱ 倒计时指向目的地当地时刻的绝对瞬间；行程中时间为当地时区（意/中/摩洛哥）。</div>
+  </section>
+
+  <!-- ② 总览地图 -->
+  <section class="card sec-anchor" id="overview">
+    <h2><span class="ico">🗺️</span>行程总览地图</h2>
+    <svg class="ovmap" viewBox="0 0 680 640" id="ovSvg" aria-label="意大利行程总览"></svg>
+    <div class="legend">
+      <span><i style="background:#e07a5f"></i>罗马→那不勒斯</span>
+      <span><i style="background:#3d8baf"></i>那不勒斯→佛罗伦萨</span>
+      <span><i style="background:#81b29a"></i>佛罗伦萨→威尼斯</span>
+      <span><i style="background:#c9a227"></i>威尼斯→米兰</span>
+      <span>🛏 每晚住宿城市</span>
+    </div>
+  </section>
+
+  <!-- ③ 已确认信息 -->
+  <section class="card sec-anchor" id="confirmed">
+    <h2><span class="ico">✅</span>已确认 · 机票 / 高铁 / 酒店 / 门票</h2>
+
+    <div class="grp">
+      <h3>✈️ 航班（已出票 · 时间锚）</h3>
+      <div class="row"><div class="k">去程·出</div><div class="v">10-02 13:25 北京大兴 PKX → 卡萨布兰卡 CMN（中转，航司赠酒店含接送）</div></div>
+      <div class="row"><div class="k">去程·到</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=41.8003,12.2389" target="_blank">10-03 11:50 罗马 FCO 机场</a>（取行李+入境+火车到市区约 3h）</div></div>
+      <div class="row"><div class="k">返程·出</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=45.6300,8.7230" target="_blank">10-12 22:15 米兰 MXP 机场</a> → 郑州 CGO（中转）→ 10-13 18:40 上海浦东 PVG</div></div>
+    </div>
+
+    <div class="grp">
+      <h3>🚄 城际高铁（已出票 · 座位号已记）</h3>
+      <div class="row"><div class="k">10-05</div><div class="v">17:10 车次 8343 Roma Termini → Napoli Centrale（18:26 到）</div></div>
+      <div class="row"><div class="k">10-08</div><div class="v">07:25 车次 8506 Napoli → Firenze SMN（10:27 到）· 6 车厢 8B/9B</div></div>
+      <div class="row"><div class="k">10-10</div><div class="v">08:20 车次 9404 Firenze SMN → Venezia Mestre（10:23 到）· 4 车厢 1C/1D</div></div>
+      <div class="row"><div class="k">10-11</div><div class="v">08:00 车次 9713 Venezia → Milano Centrale（10:15 到）· 2 车厢 17D/17A</div></div>
+    </div>
+
+    <div class="grp">
+      <h3>🏨 酒店（名称 + 地址）</h3>
+      <div class="row"><div class="k">罗马</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=41.9080,12.5220" target="_blank">Adesso Hotel</a> · Via Guido Mazzoni 18-28（近 Tiburtina 站）</div></div>
+      <div class="row"><div class="k">那不勒斯</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=40.8510,14.2710" target="_blank">CX Naples Centrale</a> · Via Galileo Ferraris, 4（近 Napoli Centrale 站）</div></div>
+      <div class="row"><div class="k">佛罗伦萨</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=43.7780,11.2460" target="_blank">Residence Porta Al Prato</a> · Via del Ponte alle Mosse, 16</div></div>
+      <div class="row"><div class="k">威尼斯</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=45.4780,12.2400" target="_blank">Campanile Venice Mestre</a> · Via Ca' Marcello 8/G, Mestre</div></div>
+      <div class="row"><div class="k">米兰</div><div class="v"><a href="https://www.google.com/maps/search/?api=1&query=45.4900,9.2150" target="_blank">Palazzo Loreto Hotel Milano</a> · Viale Monza, 7（近 Loreto 地铁站）</div></div>
+      <div class="row"><div class="k">卡萨布兰卡</div><div class="v">中转酒店 · 航司赠送含接送（无需自行预订）</div></div>
+    </div>
+
+    <div class="grp">
+      <h3>🎫 门票 / 预约</h3>
+      <div class="row"><div class="k">梵蒂冈博物馆</div><div class="v">已预约 09:30 时段（约 09:45 入场）<span class="pill ok">已约</span></div></div>
+      <div class="row"><div class="k">万神殿</div><div class="v">10-04 首周日免费，仍需预约入场时段<span class="pill free">免费·待约</span></div></div>
+      <div class="row"><div class="k">斗兽场</div><div class="v">10-04 首周日免费，需预约入场时段（不走联票）<span class="pill free">免费·待约</span></div></div>
+      <div class="row"><div class="k">乌菲兹 / 圣母百花 / 圣塞维诺</div><div class="v">尚未购买，需提前预约<span class="pill todo">待购</span></div></div>
+      <div class="row"><div class="k">卡普里船票</div><div class="v">SNAV / NLG（Ferryhopper），尚未购买<span class="pill todo">待购</span></div></div>
+      <div class="row"><div class="k">《最后的晚餐》</div><div class="v">本行程不安排<span class="pill ok">放弃</span></div></div>
+    </div>
+  </section>
+
+  <!-- ④ 逐日行程 -->
+  <section class="sec-anchor" id="days">
+    <h2 style="margin:6px 2px 4px;font-size:16px">📅 逐日行程（点标题展开 · 地点可导航）</h2>
+    <div id="dayList"></div>
+  </section>
+
+  <!-- ⑤ 待办清单 -->
+  <section class="card sec-anchor" id="todo">
+    <h2><span class="ico">📝</span>出发前待办清单</h2>
+    <ul class="todo">
+      <li>购买剩余门票预约：乌菲兹、圣母百花（登顶/穹顶）、圣塞维诺小堂</li>
+      <li>购买卡普里岛快艇往返船票（SNAV / NLG，Ferryhopper）</li>
+      <li>预约万神殿、斗兽场 10-04 免费入场时段</li>
+      <li>确认护照有效期 ≥ 6 个月，打印/离线保存机票与高铁票</li>
+      <li>欧元现金 + 一张免货币转换费的银行卡；开通手机国际漫游/数据包</li>
+      <li>下载离线地图（Maps）、翻译、交通票 App（Trenitalia / Italo）</li>
+      <li>充电宝、欧标转换插头（Type C/F）、舒适步行鞋</li>
+      <li>米兰购物退税：保留小票，La Rinascente 顶楼可现场退税</li>
+    </ul>
+  </section>
+
+  <!-- ⑥ 实用贴士 -->
+  <section class="card sec-anchor" id="tips">
+    <h2><span class="ico">💡</span>实用贴士</h2>
+    <div class="tips">
+      <p><b>时区</b>：北京/上海 UTC+8 · 卡萨布兰卡 UTC+1 · 意大利 CEST UTC+2（全程夏令时）。注意跨时区算时间。</p>
+      <p><b>市内交通</b>：罗马/米兰地铁 + 步行；那不勒斯用 Metro L1 + Funicolare 缆车；威尼斯本岛靠步行 + 水上巴士（Actv 单程 9.5€）；佛罗伦萨步行 + 公交。</p>
+      <p><b>城际</b>：高铁票已含座位号，提前 30 min 到站候车；上车前在站台打票（通勤小火车需打票）。</p>
+      <p><b>紧急电话</b>：统一欧洲紧急 112；医疗 118；火警 115；报警 113。</p>
+      <p><b>餐厅</b>：午市约 12:30 起、晚市 19:30 后；账单可能含 coperto（餐位费）；小费非强制。</p>
+      <p><b>营业</b>：乌菲兹周一闭馆；多数博物馆周日/周一有变化，以预约时段为准。</p>
+    </div>
+  </section>
+
+  <footer>
+    本手册为私人行程参考 · 页面不含订单确认号 / 证件号 / 房间号<br>
+    地点链接唤起 Google 地图 · 单文件离线可用
+  </footer>
+</div>
+
+<script>
+/* ===== 数据 ===== */
+const PLACES = {
+  fco:{n:"罗马菲乌米奇诺机场 FCO",lat:41.8003,lng:12.2389},
+  tiburtina:{n:"Roma Tiburtina 站",lat:41.9036,lng:12.5018},
+  adesso:{n:"Adesso Hotel",lat:41.9080,lng:12.5220},
+  spagna:{n:"西班牙广场 / 破船喷泉",lat:41.9058,lng:12.4823},
+  pincio:{n:"苹丘 Pincio 观景台",lat:41.9110,lng:12.4740},
+  trevi:{n:"许愿池 Trevi",lat:41.9009,lng:12.4831},
+  pantheon:{n:"万神殿 Pantheon",lat:41.8986,lng:12.4769},
+  navona:{n:"纳沃纳广场",lat:41.8992,lng:12.4731},
+  colosseo:{n:"斗兽场 Colosseo",lat:41.8902,lng:12.4923},
+  palatino:{n:"帕拉蒂尼山",lat:41.8888,lng:12.4883},
+  foro:{n:"古罗马广场",lat:41.8925,lng:12.4853},
+  venezia:{n:"威尼斯广场 / 维托里亚诺",lat:41.8955,lng:12.4825},
+  stpeter:{n:"圣彼得大教堂",lat:41.9022,lng:12.4539},
+  vat:{n:"梵蒂冈博物馆",lat:41.9065,lng:12.4536},
+  ottaviano:{n:"Ottaviano 地铁站",lat:41.9100,lng:12.4570},
+  termini:{n:"Roma Termini 站",lat:41.9010,lng:12.5015},
+  cx:{n:"CX Naples Centrale",lat:40.8510,lng:14.2710},
+  napcentrale:{n:"Napoli Centrale 站",lat:40.8518,lng:14.2726},
+  beverello:{n:"Molo Beverello 码头",lat:40.8380,lng:14.2530},
+  capriMarina:{n:"卡普里 Marina Grande",lat:40.5500,lng:14.2500},
+  capriPiazzetta:{n:"卡普里镇 Piazzetta",lat:40.5495,lng:14.2425},
+  augusto:{n:"奥古斯都花园",lat:40.5470,lng:14.2420},
+  faraglioni:{n:"Faraglioni 情人岩",lat:40.5350,lng:14.2450},
+  anacapri:{n:"Anacapri",lat:40.5550,lng:14.2150},
+  solaro:{n:"Monte Solaro 吊椅",lat:40.5580,lng:14.2100},
+  sansevero:{n:"圣塞维诺小堂",lat:40.8512,lng:14.2570},
+  duomoNa:{n:"那不勒斯主教座堂",lat:40.8528,lng:14.2585},
+  gesu:{n:"新耶稣教堂",lat:40.8485,lng:14.2560},
+  spacca:{n:"Spaccanapoli",lat:40.8490,lng:14.2550},
+  toledo:{n:"Via Toledo",lat:40.8410,lng:14.2510},
+  palazzoReale:{n:"那不勒斯王宫",lat:40.8380,lng:14.2510},
+  castelNuovo:{n:"新堡 Castel Nuovo",lat:40.8375,lng:14.2520},
+  galleriaNa:{n:"翁贝托一世拱廊",lat:40.8375,lng:14.2495},
+  ovoo:{n:"蛋堡 Castel dell'Ovo",lat:40.8280,lng:14.2470},
+  vomero:{n:"Vomero 山顶 / Funicolare",lat:40.8410,lng:14.2360},
+  santelmo:{n:"圣埃莫堡 Castel Sant'Elmo",lat:40.8380,lng:14.2360},
+  smn:{n:"Firenze SMN 站",lat:43.7760,lng:11.2600},
+  resFI:{n:"Residence Porta al Prato",lat:43.7780,lng:11.2460},
+  uffizi:{n:"乌菲兹美术馆",lat:43.7678,lng:11.2553},
+  vecchio:{n:"老桥 Ponte Vecchio",lat:43.7678,lng:11.2531},
+  michelangelo:{n:"米开朗基罗广场",lat:43.7625,lng:11.2640},
+  mercato:{n:"中央市场 Mercato Centrale",lat:43.7745,lng:11.2540},
+  duomoFI:{n:"圣母百花圣殿",lat:43.7731,lng:11.2552},
+  repubblica:{n:"共和广场",lat:43.7700,lng:11.2540},
+  orsan:{n:"奥尔圣米凯莱",lat:43.7705,lng:11.2550},
+  signoria:{n:"领主广场",lat:43.7696,lng:11.2559},
+  porcellino:{n:"小猪喷泉",lat:43.7693,lng:11.2543},
+  mestre:{n:"Venezia Mestre 站",lat:45.4890,lng:12.2400},
+  campanile:{n:"Campanile Venice Mestre",lat:45.4780,lng:12.2400},
+  slucia:{n:"Venezia Santa Lucia 站",lat:45.4440,lng:12.3210},
+  calatrava:{n:"宪法桥",lat:45.4420,lng:12.3260},
+  rialto:{n:"里亚托桥",lat:45.4380,lng:12.3358},
+  bookstore:{n:"沉船书店",lat:45.4420,lng:12.3370},
+  sighs:{n:"叹息桥",lat:45.4335,lng:12.3400},
+  sanmarco:{n:"圣马可广场",lat:45.4340,lng:12.3390},
+  accademia:{n:"学院桥",lat:45.4310,lng:12.3270},
+  milanoCentrale:{n:"Milano Centrale 站",lat:45.4860,lng:9.2040},
+  loreto:{n:"Loreto 地铁站",lat:45.4900,lng:9.2150},
+  duomoMI:{n:"米兰大教堂",lat:45.4642,lng:9.1900},
+  galleriaMI:{n:"埃马努埃莱二世拱廊",lat:45.4659,lng:9.1899},
+  sforza:{n:"斯福尔扎城堡",lat:45.4705,lng:9.1790},
+  sempione:{n:"森皮奥内公园",lat:45.4725,lng:9.1720},
+  pace:{n:"和平之门 Arco della Pace",lat:45.4750,lng:9.1670},
+  navigli:{n:"Navigli 运河区",lat:45.4515,lng:9.1810},
+  montenapoleone:{n:"Via Montenapoleone",lat:45.4685,lng:9.1960},
+  rinascente:{n:"La Rinascente",lat:45.4655,lng:9.1905},
+  mxp:{n:"米兰马尔彭萨 MXP 机场",lat:45.6300,lng:8.7230}
+};
+
+const DAYS = [
+  {id:1,date:"2026-10-03",wd:"周六",city:"罗马",title:"抵达 + 老城黄昏",tz:2,
+   events:[
+    {t:"11:50",p:"fco",label:"AT942 落地 FCO · 取行李+入境"},
+    {t:"~13:20",p:"tiburtina",label:"FL1 火车到 Roma Tiburtina（48min）"},
+    {t:"15:30",p:"adesso",label:"抵达 Adesso Hotel 入住（含机场到酒店缓冲）"},
+    {t:"16:20",p:"spagna",label:"西班牙广场、破船喷泉"},
+    {t:"17:30",p:"pincio",label:"步行苹丘 Pincio 观景台"},
+    {t:"18:00",label:"等日落（约 18:48）"},
+    {t:"19:10",p:"pantheon",label:"下山往万神殿周边晚餐"},
+    {t:"21:00",p:"trevi",label:"许愿池 Trevi 夜景"},
+    {t:"21:40",p:"adesso",label:"返酒店"}
+   ]},
+  {id:2,date:"2026-10-04",wd:"周日",city:"罗马",title:"老城上午 + 斗兽场（首周日免费）",tz:2,
+   events:[
+    {t:"09:30",p:"pantheon",label:"万神殿",book:true,note:"10-04 首周日免费，需预约入场时段"},
+    {t:"10:40",p:"navona",label:"纳沃纳广场、四河喷泉"},
+    {t:"12:00",label:"老城午餐"},
+    {t:"13:30",p:"colosseo",label:"前往斗兽场"},
+    {t:"14:00",p:"colosseo",label:"斗兽场 → 帕拉蒂尼山 → 古罗马广场",book:true,note:"10-04 首周日免费，需预约时段（不走联票）"},
+    {t:"17:10",p:"venezia",label:"步行威尼斯广场（维托里亚诺）"},
+    {t:"18:00",p:"adesso",label:"返酒店"}
+   ]},
+  {id:3,date:"2026-10-05",wd:"周一",city:"罗马 → 那不勒斯",title:"梵蒂冈 + 傍晚高铁赴那不勒斯",tz:2,
+   events:[
+    {t:"06:00",p:"adesso",label:"退房，行李寄存 Adesso Hotel"},
+    {t:"07:00",p:"stpeter",label:"圣彼得大教堂"},
+    {t:"09:30",p:"vat",label:"梵蒂冈博物馆（预计 09:45 入场）",book:true,note:"已约 09:30 时段，含西斯廷礼拜堂，约 12:45 结束"},
+    {t:"13:00",label:"午餐"},
+    {t:"15:00",p:"ottaviano",label:"Ottaviano 地铁 → 回酒店取行李"},
+    {t:"16:30",p:"termini",label:"抵 Roma Termini 候车"},
+    {t:"17:10",p:"termini",label:"高铁 8343 → 18:26 Napoli Centrale"},
+    {t:"18:40",p:"cx",label:"入住 CX Naples Centrale"}
+   ]},
+  {id:4,date:"2026-10-06",wd:"周二",city:"那不勒斯",title:"卡普里岛一日游",tz:2,
+   events:[
+    {t:"07:30",p:"cx",label:"CX → Molo Beverello（Metro L1 蓝线，Porto 出口）"},
+    {t:"08:00",p:"beverello",label:"快艇 → 卡普里 Marina Grande（~45-50min）"},
+    {t:"09:00",p:"capriPiazzetta",label:"Funicolare 缆车 → 卡普里镇"},
+    {t:"09:30",p:"augusto",label:"奥古斯都花园、Faraglioni 情人岩、Via Krupp"},
+    {t:"13:00",p:"capriPiazzetta",label:"卡普里镇午餐"},
+    {t:"14:00",p:"anacapri",label:"ATC 橙巴 → Anacapri（€2.5 单 / €7.2 通票）"},
+    {t:"14:30",p:"solaro",label:"Monte Solaro 吊椅登顶（往返 €14）",note:"可选 Villa San Michele €12"},
+    {t:"16:15",p:"capriMarina",label:"小巴回 Marina Grande"},
+    {t:"17:00",p:"beverello",label:"快艇回那不勒斯"},
+    {t:"18:00",p:"cx",label:"老城晚餐"}
+   ]},
+  {id:5,date:"2026-10-07",wd:"周三",city:"那不勒斯",title:"老城 + 蛋堡 + 圣埃莫堡日落",tz:2,
+   events:[
+    {t:"09:00",p:"cx",label:"出发步行老城"},
+    {t:"09:20",p:"sansevero",label:"圣塞维诺小堂（蒙面基督）",book:true,note:"需预约"},
+    {t:"10:40",p:"duomoNa",label:"那不勒斯主教座堂"},
+    {t:"11:40",p:"gesu",label:"新耶稣教堂（菱形石外墙，免费）"},
+    {t:"12:20",p:"spacca",label:"Spaccanapoli 午餐（披萨、sfogliatella）"},
+    {t:"13:30",p:"toledo",label:"Via Toledo、Toledo 地铁站"},
+    {t:"15:10",p:"palazzoReale",label:"王宫（外观）"},
+    {t:"16:00",p:"castelNuovo",label:"新堡（外观凯旋门）"},
+    {t:"16:30",p:"galleriaNa",label:"翁贝托一世拱廊"},
+    {t:"17:00",p:"ovoo",label:"蛋堡 Castel dell'Ovo（海滨城堡走马观花）"},
+    {t:"17:45",p:"vomero",label:"Funicolare Centrale → Vomero 山顶"},
+    {t:"17:50",p:"santelmo",label:"圣埃莫堡观景台日落（约 18:30）"},
+    {t:"18:50",p:"cx",label:"下山 → 回 CX 附近晚餐"}
+   ]},
+  {id:6,date:"2026-10-08",wd:"周四",city:"那不勒斯 → 佛罗伦萨",title:"高铁赴佛罗伦萨 · 乌菲兹+老桥+米开朗基罗广场",tz:2,
+   events:[
+    {t:"07:25",p:"napcentrale",label:"高铁 8506 → 10:27 Firenze SMN",note:"6 车厢 8B/9B"},
+    {t:"10:30",p:"resFI",label:"Residence Porta al Prato 寄存（步行 12min）"},
+    {t:"11:30",label:"中央广场午餐"},
+    {t:"13:30",p:"uffizi",label:"乌菲兹美术馆（约 2h）",book:true,note:"需预约；08:15-18:30，周一闭馆"},
+    {t:"15:30",p:"vecchio",label:"老桥 Ponte Vecchio"},
+    {t:"17:00",p:"michelangelo",label:"公交 → 米开朗基罗广场（C4/13，25-30min）"},
+    {t:"18:35",label:"日落（约 18:35）"},
+    {t:"19:30",label:"下山晚餐"}
+   ]},
+  {id:7,date:"2026-10-09",wd:"周五",city:"佛罗伦萨",title:"中央市场 + 圣母百花 + 老城",tz:2,
+   events:[
+    {t:"09:00",p:"mercato",label:"中央市场 牛肚包"},
+    {t:"10:00",p:"duomoFI",label:"圣母百花圣殿（登钟楼/穹顶）",book:true,note:"需预约"},
+    {t:"12:00",p:"repubblica",label:"共和广场"},
+    {t:"12:30",label:"午餐、皮具街"},
+    {t:"14:00",p:"orsan",label:"奥尔圣米凯莱（路过）"},
+    {t:"14:20",p:"signoria",label:"领主广场、Caffè Gilli"},
+    {t:"15:30",p:"porcellino",label:"小猪喷泉"},
+    {t:"18:30",label:"晚餐"},
+    {t:"20:00",p:"duomoFI",label:"夜景：圣母百花灯光 → 领主广场 → 老桥"},
+    {t:"21:30",p:"resFI",label:"回酒店"}
+   ]},
+  {id:8,date:"2026-10-10",wd:"周六",city:"佛罗伦萨 → 威尼斯",title:"高铁赴威尼斯 · 半日游",tz:2,
+   events:[
+    {t:"08:20",p:"smn",label:"高铁 9404 → 10:23 Venezia Mestre",note:"4 车厢 1C/1D"},
+    {t:"10:30",p:"campanile",label:"Campanile Venice Mestre 寄存（步行 7-8min）"},
+    {t:"11:15",p:"slucia",label:"通勤火车 → Venezia Santa Lucia（€1.5，上车前打票）"},
+    {t:"11:30",p:"rialto",label:"赤足桥、里亚托桥、沉船书店、叹息桥"},
+    {t:"14:00",label:"午餐（墨鱼面、海鲜）"},
+    {t:"15:00",p:"sanmarco",label:"圣马可广场、学院桥看夕阳"},
+    {t:"18:00",p:"accademia",label:"学院桥乘水上巴士 1 号线回站（Actv 单程 9.5€）"},
+    {t:"19:00",p:"calatrava",label:"步行 6min 宪法桥"},
+    {t:"21:15",p:"slucia",label:"火车回 Mestre 酒店"}
+   ]},
+  {id:9,date:"2026-10-11",wd:"周日",city:"威尼斯 → 米兰",title:"高铁赴米兰 · 大教堂+城堡+运河",tz:2,
+   events:[
+    {t:"08:00",p:"mestre",label:"高铁 9713 → 10:15 Milano Centrale",note:"2 车厢 17D/17A"},
+    {t:"10:30",p:"loreto",label:"M1 红线 Loreto → Duomo（6 站，12min）"},
+    {t:"13:00",p:"duomoMI",label:"米兰大教堂 + 埃马努埃莱二世拱廊"},
+    {t:"15:00",p:"sforza",label:"斯福尔扎城堡（Via Dante 步行 15min，庭院免费）"},
+    {t:"16:40",p:"pace",label:"穿森皮奥内公园 → 和平之门（免费）"},
+    {t:"18:30",label:"行程结束"},
+    {t:"19:00",p:"navigli",label:"Navigli 运河区晚餐夜景（M2 → Porta Genova）"}
+   ]},
+  {id:10,date:"2026-10-12",wd:"周一",city:"米兰",title:"购物 + 机场返程",tz:2,
+   events:[
+    {t:"10:00",p:"montenapoleone",label:"黄金四角区：Montenapoleone / Spiga / Sant'Andrea / Manzoni"},
+    {t:"12:00",p:"rinascente",label:"La Rinascente（顶楼可现场退税）"},
+    {t:"15:00",p:"loreto",label:"回 Loreto 取行李 → 机场"},
+    {t:"22:15",p:"mxp",label:"HO1668 MXP → CGO → PVG 返程"}
+   ]}
+];
+
+/* 倒计时里程碑（UTC 绝对时刻） */
+const MILES = [
+  {utc:"2026-10-02T05:25:00Z",t:"出发 · 北京大兴 PKX"},
+  {utc:"2026-10-03T09:50:00Z",t:"抵达 · 罗马 FCO"},
+  {utc:"2026-10-05T15:10:00Z",t:"高铁 · 罗马→那不勒斯"},
+  {utc:"2026-10-08T05:25:00Z",t:"高铁 · 那不勒斯→佛罗伦萨"},
+  {utc:"2026-10-10T06:20:00Z",t:"高铁 · 佛罗伦萨→威尼斯"},
+  {utc:"2026-10-11T06:00:00Z",t:"高铁 · 威尼斯→米兰"},
+  {utc:"2026-10-12T20:15:00Z",t:"返程起飞 · 米兰 MXP"}
+];
+
+const COLORS = ["#e07a5f","#3d8baf","#81b29a","#c9a227","#9b6fb0","#d98c3f"];
+
+/* ===== 主题 ===== */
+function applyTheme(mode){
+  document.documentElement.setAttribute('data-theme',mode);
+  try{localStorage.setItem('it-theme',mode);}catch(e){}
+}
+function toggleTheme(){
+  const cur=document.documentElement.getAttribute('data-theme');
+  applyTheme(cur==='dark'?'light':'dark');
+}
+(function initTheme(){
+  let m;try{m=localStorage.getItem('it-theme');}catch(e){}
+  if(!m){
+    const h=new Date().getHours();
+    m=(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)||h<6||h>=18?'dark':'light';
+  }
+  applyTheme(m);
+})();
+
+/* ===== 倒计时 ===== */
+function pad(n){return n<10?'0'+n:''+n;}
+function tick(){
+  const now=Date.now();
+  let next=null;
+  for(const m of MILES){if(new Date(m.utc).getTime()>now){next=m;break;}}
+  const phaseEl=document.getElementById('phase');
+  const ne=document.getElementById('nextEvent');
+  const nw=document.getElementById('nextWhen');
+  if(!next){
+    phaseEl.textContent='✅ 旅行已结束 · 一路顺风';
+    ne.textContent='欢迎回家';
+    nw.textContent='';
+    document.getElementById('cdD').textContent='00';
+    document.getElementById('cdH').textContent='00';
+    document.getElementById('cdM').textContent='00';
+    document.getElementById('cdS').textContent='00';
+    return;
+  }
+  const diff=Math.floor((new Date(next.utc).getTime()-now)/1000);
+  const d=Math.floor(diff/86400),h=Math.floor(diff%86400/3600),m=Math.floor(diff%3600/60),s=diff%60;
+  document.getElementById('cdD').textContent=pad(d);
+  document.getElementById('cdH').textContent=pad(h);
+  document.getElementById('cdM').textContent=pad(m);
+  document.getElementById('cdS').textContent=pad(s);
+  ne.innerHTML='<span class="pin">📍</span> '+next.t;
+  const dt=new Date(next.utc);
+  nw.textContent='目标时刻：'+dt.toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+
+    '（'+Intl.DateTimeFormat().resolvedOptions().timeZone+'）';
+  phaseEl.textContent='下一站 · 倒计时';
+}
+setInterval(tick,1000);tick();
+
+/* ===== 生成逐日卡片 ===== */
+function mapsLink(p){const o=PLACES[p];return `https://www.google.com/maps/search/?api=1&query=${o.lat},${o.lng}`;}
+function dayMapSvg(day){
+  const pts=day.events.filter(e=>e.p&&PLACES[e.p]).map(e=>({...PLACES[e.p],t:e.t,label:e.label}));
+  if(pts.length===0) return '<p style="color:var(--sub);font-size:13px">当日无地图点位</p>';
+  const lats=pts.map(p=>p.lat),lngs=pts.map(p=>p.lng);
+  const minLat=Math.min(...lats),maxLat=Math.max(...lats),minLng=Math.min(...lngs),maxLng=Math.max(...lngs);
+  const W=600,H=380,pad=46;
+  const spanLat=Math.max(maxLat-minLat,0.01),spanLng=Math.max(maxLng-minLng,0.01);
+  const sc=Math.min((W-2*pad)/spanLng,(H-2*pad)/spanLat);
+  const ox=(W-spanLng*sc)/2,oy=(H-spanLat*sc)/2;
+  const X=lng=>ox+(lng-minLng)*sc;
+  const Y=lat=>oy+(maxLat-lat)*sc;
+  let s=`<svg viewBox="0 0 ${W} ${H}">`;
+  s+=`<rect x="0" y="0" width="${W}" height="${H}" fill="var(--map-bg)"/>`;
+  // route line
+  s+=`<polyline points="${pts.map(p=>X(p.lng)+','+Y(p.lat)).join(' ')}" fill="none" stroke="var(--accent2)" stroke-width="2.5" stroke-dasharray="1 0" opacity="0.7"/>`;
+  pts.forEach((p,i)=>{
+    s+=`<circle cx="${X(p.lng)}" cy="${Y(p.lat)}" r="7" fill="${COLORS[day.id%COLORS.length]}" stroke="#fff" stroke-width="2"/>`;
+    s+=`<text x="${X(p.lng)}" y="${Y(p.lat)-12}" font-size="11" fill="var(--ink)" text-anchor="middle">${p.t}</text>`;
+  });
+  s+=`</svg>`;
+  return s;
+}
+function buildDays(){
+  const wrap=document.getElementById('dayList');
+  DAYS.forEach((day,idx)=>{
+    const col=COLORS[day.id%COLORS.length];
+    const el=document.createElement('div');
+    el.className='day';
+    el.innerHTML=`
+      <div class="head" onclick="this.parentNode.classList.toggle('open')">
+        <div class="dayno" style="background:${col}">D${day.id}<small>${day.date.slice(5)}</small></div>
+        <div class="ht"><div class="t1">${day.city} · ${day.title}</div><div class="t2">${day.date} ${day.wd} · 时区 意大利(UTC+2)</div></div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="body">
+        <div class="tl">
+          ${day.events.map(e=>`
+            <div class="ev">
+              <div class="tm">${e.t}<small>当地</small></div>
+              <div class="tx">${e.p?`<a href="${mapsLink(e.p)}" target="_blank">${e.label}</a>`:e.label}${e.book?'<span class="book">需预约</span>':''}</div>
+              ${e.note?`<div class="note">${e.note}</div>`:''}
+            </div>`).join('')}
+        </div>
+        <div class="mapbar">
+          <div class="mbtn" onclick="toggleDayMap(${day.id})">📍 当日路线地图</div>
+          <div class="mbtn" onclick="dayNav(${day.id})">🧭 一键全天导航</div>
+        </div>
+        <div class="daymap" id="dm-${day.id}"></div>
+      </div>`;
+    wrap.appendChild(el);
+  });
+}
+function toggleDayMap(id){
+  const box=document.getElementById('dm-'+id);
+  if(box.classList.contains('show')){box.classList.remove('show');return;}
+  const day=DAYS.find(d=>d.id===id);
+  box.innerHTML=dayMapSvg(day);
+  box.classList.add('show');
+}
+function dayNav(id){
+  const day=DAYS.find(d=>d.id===id);
+  const pts=day.events.filter(e=>e.p&&PLACES[e.p]).map(e=>PLACES[e.p]);
+  if(pts.length<2){if(pts.length===1)window.open(mapsLink(day.events.find(e=>e.p).p),'_blank');return;}
+  const o=pts[0],d=pts[pts.length-1];
+  const wps=pts.slice(1,-1).map(p=>`${p.lat},${p.lng}`).join('|');
+  const url=`https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=${o.lat},${o.lng}&destination=${d.lat},${d.lng}&waypoints=${wps}`;
+  window.open(url,'_blank');
+}
+buildDays();
+
+/* ===== 总览地图（手绘感） ===== */
+(function overview(){
+  const svg=document.getElementById('ovSvg');
+  const cities={
+    Rome:{x:330,y:380,c:'罗马',col:COLORS[0]},
+    Naples:{x:345,y:445,c:'那不勒斯',col:COLORS[0]},
+    Florence:{x:305,y:300,c:'佛罗伦萨',col:COLORS[2]},
+    Venice:{x:430,y:215,c:'威尼斯',col:COLORS[3]},
+    Milan:{x:215,y:225,c:'米兰',col:COLORS[4]}
+  };
+  // 意大利轮廓（简化手绘）
+  const italy=`M 200,170
+   C 270,140 360,138 420,162
+   C 448,178 442,206 420,232
+   C 408,262 398,300 388,348
+   C 380,392 366,432 352,460
+   C 344,478 330,470 336,452
+   C 344,430 322,432 308,440
+   C 292,448 300,470 322,496
+   C 330,512 316,520 304,506
+   C 286,484 270,452 256,418
+   C 246,392 254,360 262,330
+   C 250,300 248,270 236,248
+   C 220,222 206,196 200,170 Z`;
+  let s=`<defs>
+    <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
+  </defs>`;
+  s+=`<g filter="url(#rough)">`;
+  s+=`<path d="${italy}" fill="var(--panel)" stroke="var(--line)" stroke-width="2.5" stroke-linejoin="round"/>`;
+  // Sicily
+  s+=`<path d="M 300,540 L 330,548 L 318,566 L 296,558 Z" fill="var(--panel)" stroke="var(--line)" stroke-width="2"/>`;
+  s+=`</g>`;
+  // route segments in travel order
+  const order=["Rome","Naples","Florence","Venice","Milan"];
+  const segCols=["#e07a5f","#3d8baf","#81b29a","#c9a227"];
+  for(let i=0;i<order.length-1;i++){
+    const a=cities[order[i]],b=cities[order[i+1]];
+    s+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${segCols[i]}" stroke-width="3.5" stroke-linecap="round" filter="url(#rough)"/>`;
+  }
+  // bed markers + labels
+  Object.values(cities).forEach(c=>{
+    s+=`<g>
+      <rect x="${c.x-9}" y="${c.y-9}" width="18" height="14" rx="3" fill="${c.col}" opacity="0.9" transform="rotate(-12 ${c.x} ${c.y})"/>
+      <text x="${c.x}" y="${c.y-14}" font-size="13" font-weight="700" fill="var(--ink)" text-anchor="middle">🛏</text>
+      <text x="${c.x}" y="${c.y+24}" font-size="13" fill="var(--ink)" text-anchor="middle" font-weight="600">${c.c}</text>
+    </g>`;
+  });
+  svg.innerHTML=s;
+})();
+</script>
+</body>
+</html>
