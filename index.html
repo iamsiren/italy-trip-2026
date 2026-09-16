@@ -102,11 +102,20 @@
   .daymap.show{display:block}
   .daymap svg{width:100%;height:auto;background:var(--map-bg);border-radius:10px}
 
-  /* todo */
+  /* todo (interactive) */
   ul.todo{list-style:none;margin:0;padding:0}
-  ul.todo li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--line);font-size:14px}
+  ul.todo li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
   ul.todo li:last-child{border-bottom:none}
-  ul.todo li:before{content:"☐";position:absolute;left:0;top:8px;color:var(--sub);font-size:15px}
+  ul.todo .tbox{appearance:none;-webkit-appearance:none;width:18px;height:18px;margin:1px 0 0;flex:0 0 auto;border:2px solid var(--sub);border-radius:5px;cursor:pointer;position:relative}
+  ul.todo .tbox:checked{background:var(--accent);border-color:var(--accent)}
+  ul.todo .tbox:checked:after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  ul.todo .ttext{flex:1;line-height:1.5;word-break:break-word}
+  ul.todo li.done .ttext{text-decoration:line-through;color:var(--sub);opacity:.7}
+  ul.todo .tdel{border:none;background:none;color:var(--sub);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;opacity:.55}
+  ul.todo .tdel:hover{opacity:1;color:#c0392b}
+  .todo-add{display:flex;gap:8px;margin-top:12px}
+  .todo-add input{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:14px;background:var(--card);color:var(--text)}
+  .todo-add button{border:none;background:var(--accent);color:#fff;border-radius:9px;padding:0 18px;font-size:14px;cursor:pointer}
 
   /* tips */
   .tips{font-size:13px;color:var(--ink)}
@@ -204,14 +213,11 @@
   <!-- ⑤ 待办清单 -->
   <section class="card sec-anchor" id="todo">
     <h2><span class="ico">📝</span>出发前待办清单</h2>
-    <ul class="todo">
-      <li>购买剩余门票预约：乌菲兹、圣母百花（登顶/穹顶）、圣塞维诺小堂</li>
-      <li>确认护照有效期 ≥ 6 个月，打印/离线保存机票与高铁票</li>
-      <li>欧元现金 + 一张免货币转换费的银行卡；开通手机国际漫游/数据包</li>
-      <li>下载离线地图（Maps）、翻译、交通票 App（Trenitalia / Italo）</li>
-      <li>充电宝、欧标转换插头（Type C/F）、舒适步行鞋</li>
-      <li>米兰购物退税：保留小票，La Rinascente 顶楼可现场退税</li>
-    </ul>
+    <ul class="todo" id="todoList"></ul>
+    <div class="todo-add">
+      <input id="todoInput" type="text" placeholder="添加一项待办…" maxlength="80" autocomplete="off">
+      <button id="todoAdd" type="button">添加</button>
+    </div>
   </section>
 
   <!-- ⑥ 实用贴士 -->
@@ -558,6 +564,49 @@ function dayNav(id){
   window.open(url,'_blank');
 }
 buildDays();
+
+/* ===== 待办清单（可交互：勾选/新增/删除，本地保存） ===== */
+(function(){
+  const KEY='it-trip-todo-v1';
+  const SEED=[
+    '购买剩余门票预约：乌菲兹、圣母百花（登顶/穹顶）、圣塞维诺小堂',
+    '确认护照有效期 ≥ 6 个月，打印/离线保存机票与高铁票',
+    '欧元现金 + 一张免货币转换费的银行卡；开通手机国际漫游/数据包',
+    '下载离线地图（Maps）、翻译、交通票 App（Trenitalia / Italo）',
+    '充电宝、欧标转换插头（Type C/F）、舒适步行鞋',
+    '米兰购物退税：保留小票，La Rinascente 顶楼可现场退税'
+  ];
+  let list;
+  try{const s=localStorage.getItem(KEY);list=s?JSON.parse(s):null;}catch(e){list=null;}
+  if(!Array.isArray(list))list=SEED.map(t=>({text:t,done:false}));
+  const ul=document.getElementById('todoList');
+  const input=document.getElementById('todoInput');
+  const addBtn=document.getElementById('todoAdd');
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(list));}catch(e){}}
+  function render(){
+    ul.innerHTML='';
+    list.forEach((it,i)=>{
+      const li=document.createElement('li');
+      if(it.done)li.className='done';
+      const cb=document.createElement('input');cb.type='checkbox';cb.className='tbox';cb.checked=!!it.done;
+      cb.onchange=()=>{list[i].done=cb.checked;save();render();};
+      const span=document.createElement('span');span.className='ttext';span.textContent=it.text;
+      const del=document.createElement('button');del.className='tdel';del.type='button';del.textContent='×';del.title='删除';
+      del.onclick=(e)=>{e.stopPropagation();list.splice(i,1);save();render();};
+      li.appendChild(cb);li.appendChild(span);li.appendChild(del);
+      ul.appendChild(li);
+    });
+  }
+  function add(){
+    const v=input.value.trim();
+    if(!v)return;
+    list.push({text:v,done:false});
+    input.value='';save();render();
+  }
+  addBtn.onclick=add;
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')add();});
+  render();
+})();
 
 /* ===== 总览地图（手绘感） ===== */
 (function overview(){
